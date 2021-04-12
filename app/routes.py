@@ -1,6 +1,9 @@
 from flask import jsonify, request
 from app import app
 from app.controllers import Kategori, Akun
+from flask_cors import CORS
+
+CORS(app)
 
 # Class Instance
 kategori = Kategori.Kategori()
@@ -82,3 +85,10 @@ def delete_akun(id):
     if request.method == 'DELETE':
         akun.id = id
         return akun.delete_akun()
+
+@app.route("/login", methods=['POST'])
+def login_akun():
+    if request.method == 'POST':
+        akun.username = request.form['username']
+        akun.password = request.form['password']
+        return akun.login_akun()
