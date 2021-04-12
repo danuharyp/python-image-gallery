@@ -68,7 +68,7 @@ class Akun(Database.Database):
 
     def __decrypt_password(self, chipered_password):
         chiper_suite = Fernet(self.pass_key)
-        chipered_text = b"%s" % chipered_password
+        chipered_text = b"%s" % chipered_password.encode()
         unchipered_text = (chiper_suite.decrypt(chipered_text))
         return unchipered_text.decode()
 
@@ -136,10 +136,15 @@ class Akun(Database.Database):
         akun_exists = self.cursor.fetchone()
 
         if akun_exists != None:
-            res['status'] = true
-            res['data'] = akun_exists["password"]
+            if self.__decrypt_password(akun_exists['password']) == self.password:
+                akun_exists.pop("password")
+                res['status'] = True
+                res['data'] = akun_exists
+            else:
+                res['status'] = False
+                res['error'] = "Wrong password for username %s " % self.username
         else:
-            res['status'] = false
+            res['status'] = False
             res['error'] = "Username %s not exists" % self.username
 
         return jsonify(res)
