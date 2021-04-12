@@ -125,3 +125,23 @@ class Akun(Database.Database):
         return jsonify({
             "status": self.cursor.rowcount
         })
+
+    def login_akun(self):
+        res = {}
+        query = "SELECT * FROM {table} WHERE username=%s".format(
+            table=self.__table
+        )
+        value = (self.username,)
+        self.cursor.execute(query,value)
+        akun_exists = self.cursor.fetchone()
+
+        if akun_exists != None:
+            res['status'] = true
+            res['data'] = akun_exists["password"]
+        else:
+            res['status'] = false
+            res['error'] = "Username %s not exists" % self.username
+
+        return jsonify(res)
+
+
