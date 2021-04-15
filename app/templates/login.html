@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %} Login {% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename= 'css/login.css') }}">
+{% endblock %}
+
+{% block header %}
+  {{super()}}
+{% endblock %}
+
+{% block content %}
+<main id="main">
+    <!-- ======= Breadcrumbs Section ======= -->
+    <section class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Login Page</h2>
+          <ol>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li>Login</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs Section -->
+
+    <section class="inner-page">
+      <div class="container">
+        <div class="login-form">
+            <form method="post">
+                <h2 class="text-center">Log in</h2>
+                <div class="form-group">
+                    <input type="text" name="username" class="form-control" placeholder="Username" required="required">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" class="form-control" placeholder="Password" required="required">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Log in</button>
+                </div>
+                <div class="clearfix">
+                    <label class="float-left form-check-label"><input type="checkbox"> Remember me</label>
+                    <!-- <a href="#" class="float-right">Forgot Password?</a> -->
+                </div>
+            </form>
+            <p class="text-center">
+                <a href="{{ url_for('view_register') }}">
+                <span>Register your account</span>
+            </a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+{% endblock %}

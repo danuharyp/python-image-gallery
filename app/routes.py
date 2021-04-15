@@ -1,7 +1,8 @@
-from flask import jsonify, request
+from flask import jsonify, request, render_template, redirect, url_for
 from app import app
 from app.controllers import Kategori, Akun, ImageGallery
 from flask_cors import CORS
+import os
 
 CORS(app)
 
@@ -10,12 +11,48 @@ kategori = Kategori.Kategori()
 akun = Akun.Akun()
 image_gallery = ImageGallery.ImageGallery()
 
-
+# View routes
 @app.route("/", methods=['GET'])
 def index():
-    return jsonify({
-        "result": "home rest api"
-    })
+    return render_template('index.html')
+
+
+@app.route('/kategori/<int:id>/galeri')
+def get_image_gallery_category(id):
+    images = image_gallery.get_image_gallery_category(id)
+    return render_template('gallery.html', images=images)
+
+
+@app.route("/upload", methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+      return insert_image_gallery()
+
+    return render_template('upload.html')
+
+
+@app.route("/image_gallery/<int:id>/image", methods=['GET'])
+def image():
+    return render_template('image.html')
+
+
+@app.route('/gallery')
+def gallery():
+    img_names = os.listdir(os.path.join(app.static_folder, "img"))
+    print(img_names)
+    return render_template('gallery.html', img_names=img_names)
+
+
+@app.route("/login", methods=['GET'])
+def view_login():
+    return render_template('login.html')
+
+
+@app.route("/register", methods=['GET', 'POST'])
+def view_register():
+    if request.method == 'POST':
+        return insert_akun()
+    return render_template('register.html')
 
 
 # Kategori Route List
@@ -69,7 +106,8 @@ def insert_akun():
         akun.password = request.form['password']
         akun.nama_lengkap = request.form['nama_lengkap']
         akun.email = request.form['email']
-        return akun.insert_akun()
+        # return akun.insert_akun()
+        return redirect(url_for("index"))
 
 
 @app.route("/akun/update/<int:id>", methods=['PUT'])
@@ -100,13 +138,21 @@ def login_akun():
 
 @app.route("/image_gallery", methods=['GET'])
 def all_image_gallery():
-    return image_gallery.get_all_image_gallery()
+    return image_gallery.get_all_images()
 
 
 @app.route("/image_gallery/<int:id>", methods=['GET'])
 def get_image_gallery(id):
     return image_gallery.get_image_gallery(id)
 
+# @app.route("/upload-image", methods=["GET", "POST"])
+# def upload_image():
+#     if request.method == "POST":
+#         if request.files:
+#             image = request.files["image"]
+#             print(image)
+#             return redirect(request.url)
+#     return render_template("upload_image.html")
 
 @app.route("/image_gallery/insert", methods=['POST'])
 def insert_image_gallery():
@@ -115,10 +161,11 @@ def insert_image_gallery():
 
         if upload_file:
             image_gallery.id_kategori = request.form['id_kategori']
-            image_gallery.id_akun = request.form['id_akun']
+            # image_gallery.id_akun = request.form['id_akun']
             image_gallery.judul = request.form['judul']
             image_gallery.caption = request.form['caption']
-            return image_gallery.insert_images()
+            # return image_gallery.insert_images()
+            return redirect(url_for("index"))
         else:
             return jsonify({
                 "status": False

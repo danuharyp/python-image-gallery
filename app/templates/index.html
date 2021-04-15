@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block title %} Index {% endblock %}
+
+{% block styles %}
+{% endblock %}
+<!-- =======================================================
+* Template Name: Bootslander - v2.3.1
+* Template URL: https://bootstrapmade.com/bootslander-free-bootstrap-landing-page-template/
+* Author: BootstrapMade.com
+* License: https://bootstrapmade.com/license/
+======================================================== -->
+{% block header %}
+<header id="header" class="fixed-top d-flex align-items-center header-transparent">
+  <div class="container d-flex align-items-center">
+
+    <div class="logo mr-auto">
+      <h1 class="text-light"><a href="{{ url_for('index') }}"><span>Photo Gallery</span></a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+    </div>
+
+    <nav class="nav-menu d-none d-lg-block">
+      <ul>
+        <li>
+          <a href="{{ url_for('login_akun') }}">Account</a>
+        </li>
+
+      </ul>
+    </nav><!-- .nav-menu -->
+
+  </div>
+</header><!-- End Header -->
+{% endblock %}
+{% block content %}
+<!-- ======= Hero Section ======= -->
+<section id="hero">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-7 pt-5 pt-lg-0 order-2 order-lg-1 d-flex align-items-center">
+        <div data-aos="zoom-out">
+          <h1>Python Project <span>Angga & Danu</span></h1>
+          <h2>Simple photo gallery with <b>Python</b> REST API</h2>
+          <div class="text-center text-lg-left">
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="300">
+        <img src="{{ url_for('static', filename= 'assets/img/13077.jpg') }}" class="img-fluid animated" alt="">
+      </div>
+    </div>
+  </div>
+
+  <svg class="hero-waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 24 150 28 " preserveAspectRatio="none">
+    <defs>
+      <path id="wave-path" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z">
+    </defs>
+    <g class="wave1">
+      <use xlink:href="#wave-path" x="50" y="3" fill="rgba(255,255,255, .1)">
+    </g>
+    <g class="wave2">
+      <use xlink:href="#wave-path" x="50" y="0" fill="rgba(255,255,255, .2)">
+    </g>
+    <g class="wave3">
+      <use xlink:href="#wave-path" x="50" y="9" fill="#fff">
+    </g>
+  </svg>
+
+</section><!-- End Hero -->
+
+<main id="main">
+
+  <!-- ======= Features Section ======= -->
+  <section id="features" class="features">
+    <div class="container">
+
+      <div class="row" data-aos="fade-left">
+        <div class="col-lg-4 col-md-4">
+          <div class="icon-box" data-aos="zoom-in" data-aos-delay="50">
+            <i class="ri-home-line" style="color: #ffbb2c;"></i>
+            <h3><a href="{{ url_for('index') }}">Home</a></h3>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 mt-4 mt-md-0">
+          <div class="icon-box" data-aos="zoom-in" data-aos-delay="100">
+            <i class="ri-upload-line" style="color: #5578ff;"></i>
+            <!-- <h3><a href="{{ url_for('insert_image_gallery') }}">Upload</a></h3> -->
+            <h3><a href="{{ url_for('upload') }}">Upload</a></h3>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 mt-4 mt-md-0">
+          <div class="icon-box" data-aos="zoom-in" data-aos-delay="150">
+            <i class="ri-image-line" style="color: #e80368;"></i>
+            <h3><a href="{{ url_for('gallery') }}">Gallery</a></h3>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section><!-- End Features Section -->
+
+  <!-- ======= Counts Section =======  -->
+  <!-- <section id="counts" class="counts">
+    <div class="container">
+
+      <div class="row aos-init aos-animate" data-aos="fade-up">
+
+        {% for category in categories %}
+        <a href="{{ url_for('get_gallery_category', id=category['id']) }}">
+          <div class="col-lg-3 col-md-6">
+            <div class="count-box">
+              <p>{{ category['nama_kategori'] }}</p>
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+
+    </div>
+  </section> -->
+  <!-- End Counts Section  -->
+
+</main><!-- End #main -->
+
+{% block scripts %}
+{% endblock %}
+
+{% endblock %}

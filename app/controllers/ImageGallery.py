@@ -1,4 +1,5 @@
 from app.core import Database
+from app import app
 from flask import jsonify
 from math import ceil
 from werkzeug.utils import secure_filename
@@ -32,15 +33,15 @@ class ImageGallery(Database.Database):
 
     def get_all_images(self):
         query = """
-            SELECT 
+            SELECT
                 {table}.*, kategori.nama_kategori, akun.nama_lengkap
             FROM
-                {table} 
-            INNER JOIN 
+                {table}
+            INNER JOIN
                 kategori ON {table}.id_kategori = kategori.id
             INNER JOIN
                 akun ON {table.id_akun}.id_akun = akun.id
-            ORDER BY 
+            ORDER BY
                 {orderby} {orderdir}
             LIMIT {limit} OFFSET {offset}
         """.format(
@@ -61,11 +62,11 @@ class ImageGallery(Database.Database):
 
     def get_images(self, id):
         query = """
-            SELECT 
+            SELECT
                 {table}.*, kategori.nama_kategori, akun.nama_lengkap
             FROM
-                {table} 
-            INNER JOIN 
+                {table}
+            INNER JOIN
                 kategori ON {table}.id_kategori = kategori.id
             INNER JOIN
                 akun ON {table.id_akun}.id_akun = akun.id
@@ -90,16 +91,16 @@ class ImageGallery(Database.Database):
         image_file = files['image']
         image_name = secure_filename(image_file.filename)
 
-        image_file.save(os.path.join("images", image_name))
+        image_file.save(os.path.join(app.static_folder + '\img', image_name))
         self.image = image_name
         return True
 
     def insert_images(self):
         if self.image != None or self.image != "":
             query = """
-                INSERT INTO 
-                    {table} (id_kategori, id_akun, judul, caption, image) 
-                VALUES 
+                INSERT INTO
+                    {table} (id_kategori, id_akun, judul, caption, image)
+                VALUES
                     (%s, %s, %s, %s, %s)
             """.format(
                 table=self.__table
@@ -115,7 +116,7 @@ class ImageGallery(Database.Database):
 
     def update_image(self):
         query = """
-            UPDATE 
+            UPDATE
                 {table}
             SET
                 id_kategori=%s, judul=%s, caption=%s
